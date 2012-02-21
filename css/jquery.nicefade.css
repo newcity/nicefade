@@ -1,0 +1,60 @@
+body {
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+.nicefade_container {
+	position: relative;
+	width: 600px;
+	height: 220px;
+}
+
+.nicefade_container > * {
+	width: 600px;
+	height: 220px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	border: 1px solid #676767;
+	line-height: 220px;
+	text-align: center;
+	font-size: 2em;
+}
+
+.nicefade_container li + li {
+	display: none;
+}
+
+.nicefade_index-list {
+	padding: 15px 0;
+	border-top: 1px solid #eee;
+	margin-top: 15px;
+}
+
+.nicefade_index-list:after {
+	content: " ";
+	width: 100%;
+	clear: both;
+}
+
+.nicefade_index-list li {
+	float: left;
+	margin-right: 10px;
+}
+
+.nicefade_index-list a {
+	display: block;
+	padding: 5px 10px;
+	color: #222;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.nicefade_index-list .current a {
+	background: #222;
+	color: white;
+}
+
+.nicefade_wrapper {
+	width: 638px;
+	margin: 0 auto;
+}
