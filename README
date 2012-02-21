@@ -1,0 +1,15 @@
+NiceFade: A jQuery slideshow plugin
+Author: Caleb Pierce
+
+DOM structure:
+	
+	.nicefade_wrapper
+		ul or ol.nicefade_container
+		(optional) ul or ol.nicefade_index-list (same length as items in slideshow)
+			a
+			
+Options:
+	animationSpeed: speed of slideshow animation in milliseconds
+	animationDelay: delay between animations in milliseconds
+	indexList: ul or ol with each child li representing their own slide in the slideshow
+	initialIndex: the slideshow's starting point

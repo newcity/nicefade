@@ -20,13 +20,14 @@
 		var settings = $.extend( {
 			'animationSpeed'	: 500,
 			'animationDelay'	: 5000,
-			'$indexList'		: $container.siblings('.nicefade_index-list'),
+			'indexList'			: $container.siblings('.nicefade_index-list'),
 			'initialIndex'		: 1
 		}, options);
 		
 		
 		var $current_element = $('> *:nth-child(' + settings.initialIndex + ')', $container),
 			$next_element = $('> *:nth-child(' + (settings.initialIndex + 1) + ')', $container),
+			$indexList = settings.indexList,
 			stop_animation = false;
 		
 		
@@ -34,14 +35,14 @@
 		$container.children().not($current_element).hide();
 		
 		// indicate initial index in index list
-		settings.$indexList.children(':nth-child(' + settings.initialIndex + ')').addClass('current');
+		$indexList.children(':nth-child(' + settings.initialIndex + ')').addClass('current');
 		
 		// click handler for index items. Switches view to requested slide
-		settings.$indexList.find('a').click(function(e){
+		$indexList.find('a').click(function(e){
 			e.preventDefault();
 			stop_animation = true; // stop the slideshow from continuing
 			
-			var requested_index = $(e.target).parent('li').index(),
+			var requested_index = $(e.target).parent().index(),
 				requested_slide = $container.children(':nth-child(' + (requested_index + 1) + ')'); // +1 to compensate for 0-index default
 			
 			functions.fadeTo(requested_slide, $.noop(), true);
@@ -93,9 +94,8 @@
 			
 			// make slide index list indicate the current slide
 			updateIndex: function() {
-				console.log('updateIndex');
 				var current_index = $current_element.index() + 1; // +1 to compensate for 0-index default
-				settings.$indexList.children(':nth-child(' + current_index + ')').addClass('current').siblings().removeClass('current');
+				$indexList.children(':nth-child(' + current_index + ')').addClass('current').siblings().removeClass('current');
 			}
 			
 		};
