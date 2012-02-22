@@ -77,7 +77,7 @@
 					// NOTE: using fadeTo() instead of fadeIn() and fadeOut() because in not all cases do elements return to full opacity
 					// if clicking fast across indecis
 					$current_element.stop().fadeTo( settings.animationSpeed, 0, function() {
-						$(this).removeClass(settings.currentClass);
+						$(this).removeClass(settings.currentClass).hide();
 					});
 					$current_element = element_in.stop().fadeTo( settings.animationSpeed, 1, function() {
 				
@@ -97,7 +97,7 @@
 						});
 				
 					});
-					
+										
 					$container.data('current_slide', $current_element);
 			
 					// if the index list should be updated before the animation is complete
