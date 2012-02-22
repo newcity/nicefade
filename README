@@ -13,3 +13,6 @@ Options:
 	animationDelay: delay between animations in milliseconds
 	indexList: ul or ol with each child li representing their own slide in the slideshow
 	initialIndex: the slideshow's starting point
+	currentClass: the class of the current slideshow item and current index item
+	beforeSlideChange: function that gets called before the slides begin to change
+	afterSlideChange: function that gets called after the slides finish changing

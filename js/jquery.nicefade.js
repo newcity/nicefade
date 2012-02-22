@@ -21,7 +21,10 @@
 			'animationSpeed'	: 500,
 			'animationDelay'	: 5000,
 			'indexList'			: $container.siblings('.nicefade_index-list'),
-			'initialIndex'		: 1
+			'initialIndex'		: 1,
+			'currentClass'		: 'current',
+			'afterSlideChange'	: null,
+			'beforeSlideChange'	: null
 		}, options);
 		
 		
@@ -35,7 +38,7 @@
 		$container.children().not($current_element).hide();
 		
 		// indicate initial index in index list
-		$indexList.children(':nth-child(' + settings.initialIndex + ')').addClass('current');
+		$indexList.children(':nth-child(' + settings.initialIndex + ')').addClass(settings.currentClass);
 		
 		// click handler for index items. Switches view to requested slide
 		$indexList.find('a').click(function(e){
@@ -49,7 +52,7 @@
 		});
 		
 		
-		// helper functions co
+		// helper functions container
 		var functions = {
 			
 			init: function() {
@@ -60,17 +63,33 @@
 			// fade in to a new element and fade out the old one
 			fadeTo: function( element_in, callback, updateIndexImmediately ) {
 				
-				// clear animation queue, then perform animation
-				$container.children().clearQueue();
-				$current_element.fadeOut( settings.animationSpeed );
-				$current_element = element_in.fadeIn( settings.animationSpeed, function() { 
-					callback();
+				if ( $.isFunction(settings.beforeSlideChange) )
+					settings.beforeSlideChange();
+				
+				// perform animations
+				// NOTE: using fadeTo() instead of fadeIn() and fadeOut() because in not all cases do elements return to full opacity
+				// if clicking fast across indecis
+				$current_element.stop().fadeTo( settings.animationSpeed, 0, function() {
+					$(this).removeClass(settings.currentClass);
+				});
+				$current_element = element_in.stop().fadeTo( settings.animationSpeed, 1, function() { 
+					
+					if ( callback )
+						callback();
+						
 					functions.updateSlideStatus();
 					
 					if ( ! updateIndexImmediately )
 						functions.updateIndex();
+						
+					if ( $.isFunction(settings.afterSlideChange) )
+						settings.afterSlideChange();
+						
+					$(this).addClass(settings.currentClass);
+					
 				});
 				
+				// if the index list should be updated before the animation is complete
 				if ( updateIndexImmediately )
 					functions.updateIndex();
 
@@ -94,8 +113,8 @@
 			
 			// make slide index list indicate the current slide
 			updateIndex: function() {
-				var current_index = $current_element.index() + 1; // +1 to compensate for 0-index default
-				$indexList.children(':nth-child(' + current_index + ')').addClass('current').siblings().removeClass('current');
+				var current_index = $current_element.index() + 1; // +1 to compensate for 0-index default				
+				$indexList.children(':nth-child(' + current_index + ')').addClass(settings.currentClass).siblings().removeClass(settings.currentClass);
 			}
 			
 		};
