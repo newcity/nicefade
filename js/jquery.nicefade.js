@@ -5,23 +5,13 @@
 
 (function($){
 
+	var $container, $current_element, $next_element, $previous_element, $indexList, stop_animation, data, $current_slide, functions;
+
 	$.fn.nicefade = function( options ) {
 		
 		return this.each(function() {
 		
-			var $container = $(this),
-			data = $container.data('current_slide'),
-			current_slide = 'testing slide';
-
-			// If the plugin hasn't been initialized yet
-			if ( ! data ) {
-				
-				$(this).data('current_slide', {
-					target : $container,
-					current_slide : current_slide
-				});
-
-			}
+			$container = $(this);
 	
 			// Create some defaults, extending them with any options that were provided
 			var settings = $.extend( {
@@ -33,34 +23,10 @@
 				'afterSlideChange'	: null,
 				'beforeSlideChange'	: null
 			}, options);
-	
-	
-			var $current_element = $('> *:nth-child(' + settings.initialIndex + ')', $container),
-				$next_element = $('> *:nth-child(' + (settings.initialIndex + 1) + ')', $container),
-				$indexList = settings.indexList,
-				stop_animation = false;
-	
-	
-			// hide all elements that aren't the first one (NOTE: do this is your CSS to prevent a FOUC)
-			$container.children().not($current_element).hide();
-	
-			// indicate initial index in index list
-			$indexList.children(':nth-child(' + settings.initialIndex + ')').addClass(settings.currentClass);
-	
-			// click handler for index items. Switches view to requested slide
-			$indexList.find('a').click(function(e){
-				e.preventDefault();
-				stop_animation = true; // stop the slideshow from continuing
-		
-				var requested_index = $(e.target).parent().index(),
-					requested_slide = $container.children(':nth-child(' + (requested_index + 1) + ')'); // +1 to compensate for 0-index default
-		
-				functions.fadeTo(requested_slide, $.noop(), true);
-			});
-	
-	
+			
+			
 			// helper functions container
-			var functions = {
+			functions = {
 		
 				init: function() {
 					// kick off the animation after the initial delay
@@ -117,9 +83,14 @@
 		
 				// set the current and next slides
 				updateSlideStatus: function() {
-					$next_element = $next_element.next();
+					$previous_element = $current_element.prev();
+					$next_element = $current_element.next();
+					
 					if ( ! $next_element.length )
 						$next_element = $container.children(':first');
+						
+					if ( ! $previous_element.length )
+						$previous_element = $container.children(':last');
 				},
 		
 				// make slide index list indicate the current slide
@@ -129,6 +100,38 @@
 				}
 		
 			}; // functions
+			
+			
+			// set up variables to indicate initial state
+			$current_element = $('> *:nth-child(' + settings.initialIndex + ')', $container);
+			functions.updateSlideStatus();
+			$indexList = settings.indexList;
+			stop_animation = false;
+			
+			
+			// prepare the slideshow's data for public access
+			$(this).data('current_slide', $current_element);
+			$(this).data('slideshow_length', $container.children().length);
+			
+			
+			// hide all elements that aren't the first one (NOTE: do this is your CSS to prevent a FOUC)
+			$container.children().not($current_element).hide();
+	
+	
+			// indicate initial index in index list
+			$indexList.children(':nth-child(' + settings.initialIndex + ')').addClass(settings.currentClass);
+	
+	
+			// click handler for index items. Switches view to requested slide
+			$indexList.find('a').click(function(e){
+				e.preventDefault();
+				stop_animation = true; // stop the slideshow from continuing
+		
+				var requested_index = $(e.target).parent().index(),
+					requested_slide = $container.children(':nth-child(' + (requested_index + 1) + ')'); // +1 to compensate for 0-index default
+		
+				functions.fadeTo(requested_slide, $.noop(), true);
+			});
 	
 	
 			// kick off the animations
@@ -137,5 +140,36 @@
 		});
 		
 	}; // $.fn.nicefade
+	
+	
+	// advance the slideshow one step forward
+	$.fn.nicefade.next = function() {
+		
+		stop_animation = true;
+		
+		functions.fadeTo($next_element, functions.loopCycler, false);
+				
+	}
+	
+	
+	// move the slideshow one step backward
+	$.fn.nicefade.previous = function() {
+		
+		stop_animation = true;
+		
+		functions.fadeTo($previous_element, functions.loopCycler, false);
+		
+	}
+	
+	
+	// show the slide at index @target_index
+	$.fn.nicefade.seek = function( target_index ) {
+		
+		stop_animation = true;
+		
+		functions.fadeTo($container.children(':nth-child(' + target_index + ')'), functions.loopCycler, false);			
+		
+	}
+
 	
 })( jQuery );
