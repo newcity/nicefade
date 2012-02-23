@@ -23,7 +23,9 @@ Options:
 
 Public functions:
 -------------------------------
+
 _Note: automated slide animation stops when you manually move to a specific slide_
+
 * next(): advance the slideshow one step forward
 * previous(): move the slideshow one step backward
 * seek( index ): change the visible slide to the one at index @index
