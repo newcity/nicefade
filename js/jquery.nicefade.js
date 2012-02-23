@@ -9,6 +9,33 @@
 
 	$.fn.nicefade = function( options ) {
 		
+		// advance the slideshow one step forward
+		this.next = function() {
+
+			stop_animation = true;
+			functions.fadeTo($next_element, functions.loopCycler, false);
+
+		}
+
+
+		// move the slideshow one step backward
+		this.previous = function() {
+
+			stop_animation = true;
+			functions.fadeTo($previous_element, functions.loopCycler, false);
+
+		}
+
+
+		// show the slide at index @target_index
+		this.seek = function( target_index ) {
+
+			stop_animation = true;
+			functions.fadeTo($container.children(':nth-child(' + target_index + ')'), functions.loopCycler, false);			
+
+		}
+		
+		
 		return this.each(function() {
 		
 			$container = $(this);
@@ -140,36 +167,6 @@
 		});
 		
 	}; // $.fn.nicefade
-	
-	
-	// advance the slideshow one step forward
-	$.fn.nicefade.next = function() {
-		
-		stop_animation = true;
-		
-		functions.fadeTo($next_element, functions.loopCycler, false);
-				
-	}
-	
-	
-	// move the slideshow one step backward
-	$.fn.nicefade.previous = function() {
-		
-		stop_animation = true;
-		
-		functions.fadeTo($previous_element, functions.loopCycler, false);
-		
-	}
-	
-	
-	// show the slide at index @target_index
-	$.fn.nicefade.seek = function( target_index ) {
-		
-		stop_animation = true;
-		
-		functions.fadeTo($container.children(':nth-child(' + target_index + ')'), functions.loopCycler, false);			
-		
-	}
 
 	
 })( jQuery );
