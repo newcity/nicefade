@@ -5,10 +5,13 @@ NiceFade: A jQuery slideshow plugin
 
 DOM structure:
 -------------------------------
-	
-	ul or ol.nicefade_container
-	(optional) ul or ol.nicefade_index-list (same length as items in slideshow)
+
+<pre>
+ul or ol.nicefade_container
+ul or ol.nicefade_index-list (same length as items in slideshow) (optional)
+	li
 		a
+</pre>
 			
 Options:
 -------------------------------
