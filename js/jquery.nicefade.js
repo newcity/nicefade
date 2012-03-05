@@ -5,7 +5,7 @@
 
 (function($){
 
-	var $container, $current_element, $next_element, $previous_element, $indexList, stop_animation, data, $current_slide, functions;
+	var $container, $current_element, $target_element, $next_element, $previous_element, $indexList, stop_animation, data, $current_slide, functions;
 
 	$.fn.nicefade = function( options ) {
 		
@@ -62,7 +62,9 @@
 		
 				// fade in to a new element and fade out the old one
 				fadeTo: function( element_in, callback, updateIndexImmediately ) {
-			
+
+					$container.data('target_slide', element_in);
+
 					if ( $.isFunction(settings.beforeSlideChange) )
 						settings.beforeSlideChange();
 			
@@ -118,6 +120,8 @@
 						
 					if ( ! $previous_element.length )
 						$previous_element = $container.children(':last');
+
+					$container.data('target_slide', $next_element);
 				},
 		
 				// make slide index list indicate the current slide
@@ -131,6 +135,7 @@
 			
 			// set up variables to indicate initial state
 			$current_element = $('> *:nth-child(' + settings.initialIndex + ')', $container);
+			$target_element = $();
 			functions.updateSlideStatus();
 			$indexList = settings.indexList;
 			stop_animation = false;
@@ -155,9 +160,12 @@
 				stop_animation = true; // stop the slideshow from continuing
 		
 				var requested_index = $(e.target).parent().index(),
-					requested_slide = $container.children(':nth-child(' + (requested_index + 1) + ')'); // +1 to compensate for 0-index default
+					$requested_slide = $container.children(':nth-child(' + (requested_index + 1) + ')'); // +1 to compensate for 0-index default
 		
-				functions.fadeTo(requested_slide, $.noop(), true);
+				$target_element = $requested_slide;
+				$container.data('target_slide', $target_element);
+
+				functions.fadeTo($requested_slide, $.noop(), true);
 			});
 	
 	
