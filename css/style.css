@@ -1,5 +1,39 @@
 body {
 	font-family: Helvetica, Arial, sans-serif;
+	background: #f2f2f2;
+	color: #222;
+}
+
+h1 {
+	font-variant: small-caps;
+	font-size: 2.3em;
+	font-family: Georgia, serif;
+}
+
+p, li {
+	font-size: 12px;
+	line-height: 18px;
+}
+
+ul {
+	list-style-type: disc;
+	margin-left: 16px;
+}
+
+a {
+	color: #8c0000;
+	text-decoration: none;
+}
+
+hr {
+	background-color: #ccc;
+	height: 1px;
+	border: none;
+	margin: 20px;
+}
+
+a:hover {
+	color: #222;
 }
 
 .clear {
@@ -16,7 +50,10 @@ body {
 
 #page-wrap {
 	width: 600px;
-	margin: 15px auto 0;
+	margin: 0 auto;
+	background: white;
+	border: 1px solid #aaa;
+	padding: 15px;
 }
 
 .nicefade_container {
@@ -37,13 +74,20 @@ body {
 	font-size: 2em;
 }
 
+#page-wrap p {
+	margin: 15px 0;
+}
+
+#nicefade_wrapper {
+	margin-top: 20px;
+}
+
 .nicefade_container li + li {
 	display: none;
 }
 
 .nicefade_index-list {
 	padding: 15px 0;
-	border-top: 1px solid #eee;
 	margin-top: 15px;
 }
 
@@ -71,9 +115,14 @@ body {
 	color: white;
 }
 
-.nicefade_wrapper {
+#nicefade_wrapper {
 	width: 638px;
 	margin: 0 auto;
+}
+
+#nicefade_wrapper ul {
+	margin: 0;
+	list-style:none;
 }
 
 .buttons {
