@@ -39,3 +39,4 @@ Public attributes (via jQuery's .data() function):
 -------------------------------
 * slideshow_length: the number of elements in the slideshow
 * current_slide: the slide currently being shown
+* target_slide: the slide that is targeted to fade in (via click or automation)
