@@ -2,6 +2,23 @@ body {
 	font-family: Helvetica, Arial, sans-serif;
 }
 
+.clear {
+	clear: both;
+}
+
+.clear:before,
+.clear:after {
+	content: " ";
+	clear: both;
+	width: 100%;
+	display: block;
+}
+
+#page-wrap {
+	width: 600px;
+	margin: 15px auto 0;
+}
+
 .nicefade_container {
 	position: relative;
 	width: 600px;
@@ -57,4 +74,8 @@ body {
 .nicefade_wrapper {
 	width: 638px;
 	margin: 0 auto;
+}
+
+.buttons {
+	margin: 10px auto;
 }
