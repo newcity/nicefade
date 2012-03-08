@@ -1,7 +1,7 @@
 NiceFade: A jQuery slideshow plugin
 ===================================
 
-### Author: Caleb Pierce : http://calebpierce.com
+### Author &mdash; Caleb Pierce : http://calebpierce.com
 
 DOM structure:
 -------------------------------
