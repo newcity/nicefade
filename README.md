@@ -33,10 +33,7 @@ _Note: automated slide animation stops when you manually move to a specific slid
 * next(): advance the slideshow one step forward
 * previous(): move the slideshow one step backward
 * seek( index ): change the visible slide to the one at index @index
-
-
-Public attributes (via jQuery's .data() function):
--------------------------------
-* slideshow_length: the number of elements in the slideshow
-* current_slide: the slide currently being shown
-* target_slide: the slide that is targeted to fade in (via click or automation)
+* stop(): stop the slideshow's automated animation
+* slideshow_length(): the number of elements in the slideshow
+* current_slide(): the slide currently being shown
+* target_slide(): the slide that is targeted to fade in (via click or automation)

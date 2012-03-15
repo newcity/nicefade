@@ -11,9 +11,27 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery.nicefade.min.js"></script>
 	<script type="text/javascript">
+		var nicefade;
+
+		function before() {
+			var index = nicefade.target_slide().index() + 1;
+			if ( index )
+				$('#target_slide').text( index );
+			else
+				$('#target_slide').text( 'not defined' );
+		}
+
+		function after() {
+			$('#animation_status').text( (nicefade.is_active() ? 'active' : 'inactive') );
+			$('#current_slide').text(nicefade.current_slide().index() + 1);
+			$('#slideshow_length').text(nicefade.slideshow_length());
+		}	
+
 	   $(function(){	
-			var nicefade = $('#nicefade_wrapper .nicefade_container').nicefade({
-				animationDelay: 4000
+			nicefade = $('#nicefade_wrapper .nicefade_container').nicefade({
+				animationDelay: 4000,
+				afterSlideChange: after,
+				beforeSlideChange: before
 			});
 						
 			$('#previous_slide').click(function(e){
@@ -28,16 +46,27 @@
 			
 			$('#seek_slide').click(function(e){
 				e.preventDefault();
-				nicefade.seek(4);
+				nicefade.seek($('#seek_target_slide').val());
 			});
+
+			$('#stop_slideshow').click(function(e){
+				e.preventDefault();
+				nicefade.stop();
+				before();
+				after();
+			});
+
+			before();
+			after();
 		});
   	</script>
 </head>
 <body>
 	<div id="page-wrap">
 		<h1>Nicefade &mdash; a jQuery slideshow plugin.</h1>
-		<p>Why is there a need for yet another jQuery slideshow plugin when there are already so many good ones out there? Well, the problem
-			with most of them is that they have a nasty tendency to queue animations. This is evident when you leave the browser tab or window
+		<p>Why is there a need for yet another jQuery slideshow plugin when there are already so many good ones out there? Well, this one
+			isn't quite like the others. The problem with most automated JavaScript animation plugins is that they have a nasty tendency
+			to queue animations. This is evident when you leave the browser tab or window
 			and come back to a string of animations happening all at once. This plugin addresses that issue by not queuing up animations
 			at all. Try it out for yourself, and <a href="https://github.com/ridgehkr/nicefade">contribute on GitHub</a>!</p>
 			
@@ -65,8 +94,20 @@
 				<li><a href="#">5</a></li>
 			</ul>
 		</div> <!-- .nicefade_wrapper -->
+
+		<p class="clear">Status: automated animation is currently <span id="animation_status"></span>.</p>
 				
-		<p class="clear buttons"><button id="previous_slide">Previous Slide</button> <button id="next_slide">Next Slide</button> <button id="seek_slide">Seek Slide 4</button></p>
+		<p class="clear buttons"><button id="previous_slide">Previous Slide</button> <button id="next_slide">Next Slide</button></p>
+
+		<p class="clear buttons"><button id="seek_slide">Seek Slide:</button> <input type="text" value="1" id="seek_target_slide" size="3"></p>
+
+		<p class="clear buttons"><button id="stop_slideshow">Stop Slideshow</button></p>
+
+		<p>
+			Current slide: <span id="current_slide"></span><br>
+			Target slide: <span id="target_slide">not defined</span><br>
+			Slideshow length: <span id="slideshow_length"></span>
+		</p>
 
 	</div> <!-- #page-wrap -->
 </body>
